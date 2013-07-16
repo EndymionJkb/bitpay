@@ -68,7 +68,6 @@ private
   def get_json(invoice)
     { 'id' => invoice.invoice_id,
       'url' => invoice.invoice_url,      
-      #'url' => "http://localhost:3030/api/payment/#{invoice.notification_key}",
       'posData' => invoice.pos_data,
       'status' => invoice.status,
       'price' => invoice.price,
@@ -92,7 +91,7 @@ private
         case invoice.transaction_speed
         when 'medium'
           invoice.delay.update_status(BitcoinInvoice::PAID)
-          invoice.delay.update_status(BitcoinInvoice::CONFIRMED)
+          invoice.delay.update_status(BitcoinInvoice::CONFIRMED, 20.seconds.from_now)
         when 'high'
           invoice.delay.update_status(BitcoinInvoice::CONFIRMED)
         else # default to 'low' if wrong
