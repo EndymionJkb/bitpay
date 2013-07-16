@@ -13,10 +13,17 @@ class BitcoinTicker
     if response.code == '200'
       data = JSON.parse(response.body)
       if 'success' == data['result']
-        return data['return']['last_all']['value'].to_f
+        return round_to_satoshi(data['return']['last_all']['value'].to_f)
       end
     end
     
     nil
   end  
+  
+private
+  SATOSHI = 100000000.0
+  
+  def round_to_satoshi(btc)
+    (btc * SATOSHI).round / SATOSHI
+  end
 end
