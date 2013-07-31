@@ -43,7 +43,7 @@ class BitcoinInvoice < ActiveRecord::Base
                      :inclusion => { :in => VALID_STATUSES }
   #validates :notification_url, :format => { with: URL_REGEX }
                     
-  def update_status(status, delay = 10.seconds.from_now.in_time_zone)
+  def update_status(status)
     # Update internal state
     self.update_attributes!(:status => status)
     
@@ -61,7 +61,7 @@ class BitcoinInvoice < ActiveRecord::Base
     puts response.inspect
     puts response.body.inspect unless response.body.nil?
   end
-  handle_asynchronously :update_status, :run_at => Proc.new { delay.in_time_zone }
+  handle_asynchronously :update_status, :run_at => Proc.new { 10.seconds.from_now.in_time_zone }
 
 private
   # Using a private method to encapsulate the permissible parameters is just a good pattern

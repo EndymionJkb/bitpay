@@ -91,7 +91,7 @@ private
         case invoice.transaction_speed
         when 'medium'
           invoice.delay.update_status(BitcoinInvoice::PAID)
-          invoice.delay.update_status(BitcoinInvoice::CONFIRMED, 20.seconds.from_now)
+          invoice.delay.update_status(BitcoinInvoice::CONFIRMED)
         when 'high'
           invoice.delay.update_status(BitcoinInvoice::CONFIRMED)
         else # default to 'low' if wrong
